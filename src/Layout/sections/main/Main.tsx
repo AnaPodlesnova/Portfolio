@@ -66,7 +66,7 @@ const Photo = styled.img`
   display: block;
   object-fit: cover;
     flex-shrink: 1;
-    min-width: 335px;
+    /* min-width: 335px; */
 margin-bottom: 190px;
     @media ${theme.media.tablet}{
         margin-bottom: 50px;
