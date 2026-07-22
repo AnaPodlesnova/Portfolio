@@ -5,19 +5,40 @@ import { theme } from "../../../styles/Theme"
 import { Container } from "../../../components/Container"
 import Sun from "../../../assets/images/Sun.svg"
 import { Footer } from "../../footer/Footer"
+import emailjs from '@emailjs/browser';
+import { ElementRef, useRef } from 'react';
 
 
 export const Contacts = () => {
+    const form = useRef<ElementRef<'form'>>(null);
+
+  const sendEmail = (e: any) => {
+    e.preventDefault();
+if(!form.current) return
+
+    emailjs.sendForm('service_myopm1u', 'template_jeki636', form.current, {
+        publicKey: 'oYY6nyiiANwL2CkuU',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
+      e.target.reset()
+  };
      return (
         <StyledContacts id="contacts">
             <Container>
                 <ContactsWrapper>
             <SectionTitle margin="0 0 15px">Contsct Me</SectionTitle>
             <Subtitle>let’s make magic together</Subtitle>
-            <StyledForm>
-                <Field placeholder="Name" type="text"/>
-                <Field placeholder="Email" type="email"/>
-                <Field  placeholder="Your text" as={"textarea"}/>
+            <StyledForm ref={form} onSubmit={sendEmail}>
+                <Field required placeholder="Name" type="text" name="user_name"/>
+                <Field required placeholder="Email" type="email" name="Email"/>
+                <Field  required placeholder="Your text" as={"textarea"} name="message"/>
                 <Button type="submit">Send</Button>
             </StyledForm>
             </ContactsWrapper>
